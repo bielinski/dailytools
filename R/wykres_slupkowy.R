@@ -1,25 +1,29 @@
-#' Title
+#' Wykres słupkowy
 #'
-#' @param .data 
-#' @param column 
-#' @param cross_var 
-#' @param weight 
-#' @param fill_color 
-#' @param title 
-#' @param subtitle 
-#' @param caption 
-#' @param expand_top 
-#' @param axix_x_labs_wrap 
-#' @param co_flip 
-#' @param rev_values 
-#' @param highlighted_cat 
-#' @param highlight_fill 
-#' @param ... 
+#' @param .data ramka danych
+#' @param column nazwa zmiennej
+#' @param cross_var TODO: nazwa zmiennej grupującej dla facet_wrap()
+#' @param weight waga analityczna
+#' @param fill_color kolor wypelnienia słupków
+#' @param title tytuł na wykresie
+#' @param subtitle podtytuł na wykresie
+#' @param caption informacja pod wykresem
+#' @param expand_top wartość określająca o ile zwiększyć oś y
+#' @param axix_x_labs_wrap liczba znaków do zawijania etykiet wartości zmiennej na osi x
+#' @param co_flip TRUE/FALSE czy odwrócic osie wykresu
+#' @param rev_values TRUE/FALSE czy odwrócić kolejność wartości zmiennej na wykresie
+#' @param highlighted_cat wartośc zmiennej do wyróżnienia osobnym kolorem
+#' @param highlight_fill kolor wyróżnienia osobnej wartości (jeśli `highlighted_cat` != NULL)
+#' @param ... dodatkowe argumenty ggplot2
 #'
-#' @returns
+#' @returns a ggplot2 object
 #' @export
 #'
 #' @examples
+#' 
+#' mtcars$gear_fct <- as.factor(mtcars$gear)
+#' wykres_slupkowy(.data = mtcars, column = gear_fct)
+#' 
 wykres_slupkowy <- function(.data, 
                             column,
                             cross_var = NULL, #TODO: wykorzystanie argumentu dla facet_wrap()
@@ -35,6 +39,10 @@ wykres_slupkowy <- function(.data,
                             highlighted_cat = NULL,
                             highlight_fill = NULL,
                             ...) {
+  require(dplyr)
+  require(tidyr)
+  require(ggplot2)
+  require(stringr)
   
   
   if(is.null(cross_var)){

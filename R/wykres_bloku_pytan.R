@@ -1,29 +1,69 @@
-#' Title
+#'Wykres bloku pytań
 #'
-#' @param .data 
-#' @param wzor_nazw_zmiennych 
-#' @param zmienne 
-#' @param ordered 
-#' @param rev_values 
-#' @param sort_value 
-#' @param last_value 
-#' @param items_labels 
-#' @param items_labels_width 
-#' @param values_text_cutoff 
-#' @param digits 
-#' @param fill_color_palette 
-#' @param fill_color_direction 
-#' @param fill_labels 
-#' @param legend_n_row 
-#' @param coord_flip 
-#' @param title 
-#' @param subtitle 
-#' @param caption 
+#'Funkcja worzy wykres przedstawiający rozkłady odpowiedzi na pytania z bloku
+#'pytań kwestionariusza (np. pytania z oceną stwierdzeń). Zmienne przedstawiane
+#'na wykresie powinny mieć takie same możliwe wartości
 #'
-#' @returns
-#' @export
+#'@param .data ramka danych
+#'@param wzor_nazw_zmiennych (opcjonalnie) wspólny element nazw zmiennych
+#'  (string) pozwalający jednoznacznie zidentyfikować zmienne z bloku pytań
+#'@param zmienne wektor nazw zmiennych
+#'@param ordered (opcjonalnie) TRUE/FALSE czy zmienne są typu `ordered`
+#'@param rev_values TRUE/FALSE czy odwrócić kolejność wartości zmiennej na
+#'  wykresie
+#'@param sort_value (string) wartość zmiennych, wg częstości której będa
+#'  sortowane zmienne na wykresie
+#'@param last_value (string) zmienna, która ma być na ostatnim miejscu na
+#'  wykresie
+#'@param items_labels wektor etykiet dla poszczególnych zmiennych
+#'  `c(nazwa_zmiennej = 'etykieta')`
+#'@param items_labels_width liczba znaków zawijania etykiet zmienych
+#'@param values_text_cutoff wartość etykiet wartości poniżej której etykiety
+#'  wartości nie sa wyświetlane na wykresie (domyślnie 5)
+#'@param digits liczba miejsc po przecinku do zaokrąglenia etykiet wartości
+#'@param fill_color_palette paleta dla wypełnień słupków
+#'@param fill_color_direction kierunek układu kolorów na wykresie (1 lub -1 dla
+#'  odróconej kolejności)
+#'@param fill_labels wektor etykiet dla poszczególnych kolorów wypełnienia
+#'@param legend_n_row liczba wierszy dla elementów legendy
+#'@param coord_flip TRUE/FALSE czy odwrócić osie wykresu
+#'@param title tytuł na wykresie
+#'@param subtitle podtytuł na wykresie
+#'@param caption informacja pod wykresem
+#'
+#'@returns obiekt ggplot2
+#'@export
 #'
 #' @examples
+#'
+#' p16_labels <- c(
+#'p16_1_fct ='ChatGPT',
+#'p16_2_fct ='Copilot',
+#'p16_3_fct ='Gemini',
+#'p16_4_fct ='Cloude',
+#'p16_5_fct ='Perplexity',
+#'p16_6_fct ='DeepSeek',
+#'p16_7_fct ='PLLuM',
+#'p16_8_fct ='Bielik',
+#'p16_9_fct ='Inne'
+#')
+#'
+#'
+#'wykres_bloku_pytan(.data = dane,
+#'                   zmienne = paste0('p16_', 1:9, '_fct'),
+#'                   rev_values = FALSE,
+#'                   #fill_color_palette = niebieski_paleta[c(1, 9)]
+#'                   legend_n_row = 1,
+#'                   title = 'Narzędzia GenAI wykorzystywane w pracy przez pracowników #'administracji publicznej w Polsce',
+#'                   subtitle = 'Z jakich narzędzi AI korzystał/a w ciągu ostatnich 6 miesięcy w #'pracy?',
+#'                   caption = realizacja,
+#'                   items_labels = p16_labels,
+#'                   items_labels_width = 60,
+#'                   sort_value = 'Zaznaczono',
+#'                   last_value = 'p16_9_fct'
+#')
+#' 
+
 wykres_bloku_pytan <- function(.data = data, 
                                wzor_nazw_zmiennych = '',
                                zmienne = NULL,
