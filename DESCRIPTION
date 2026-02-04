@@ -1,16 +1,15 @@
 Package: dailyRtools
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Przydatne funkcje dla codziennej pracy z R
 Version: 0.1.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "Jacek", "Bieliński",
+      email = "jacek.bielinski@nask.pl",
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+Description: Pakiet zawiera przydatne funkcje do generowania tabel i wizualizacji usprawniające codzienna pracę w analizowaniu danych z badań sondażowych.
+License: CC BY-NC-SA 4.0
 Encoding: UTF-8
 LazyData: true
