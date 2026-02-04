@@ -1,3 +1,33 @@
+#' Tabela bloku pytań
+#'
+#' `tabela_bloku_pytan()` tworzy tabelę z rozkładem zmiennych pochodzących z
+#' bloku pytań w kwestionariuszu, w których wykorzystano te same odpowiedzi
+#' (wartości zmiennych sa takie same).
+#'
+#' @param .data ramka danych
+#' @param wzor_nazw_zmiennych (opcjonalnie) wspólny element nazw zmiennych
+#'   (string) pozwalający jednoznacznie zidentyfikować zmienne z bloku pytań
+#' @param zmienne wektor nazw zmiennych
+#' @param tab_form określa kształt tabeli: `wide` (szeroka) lub `long` (długa)
+#'
+#' @returns ramke danych (tibble)
+#' @export
+#'
+#' @examples
+#'
+#' tabela_bloku_pytan(dane,
+#'                    zmienne = c('imd1_1_fct',
+#'                                'imd1_2_fct',
+#'                                'imd1_3_fct',
+#'                                'imd1_4_fct',
+#'                                'imd1_5_fct')
+#'                    )
+#'
+#' tabela_bloku_pytan(.data = dane, zmienne = paste0('p16_', 1:9, '_fct'))
+#'
+#' tabela_bloku_pytan(.data = dane, wzor_nazw_zmiennych = 'p16_')
+#' 
+
 tabela_bloku_pytan <- function(.data = data, 
                                wzor_nazw_zmiennych = '',
                                zmienne = NULL,

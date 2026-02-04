@@ -1,3 +1,25 @@
+#' Title
+#'
+#' @param .data 
+#' @param column 
+#' @param cross_var 
+#' @param weight 
+#' @param fill_color 
+#' @param title 
+#' @param subtitle 
+#' @param caption 
+#' @param expand_top 
+#' @param axix_x_labs_wrap 
+#' @param co_flip 
+#' @param rev_values 
+#' @param highlighted_cat 
+#' @param highlight_fill 
+#' @param ... 
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 wykres_slupkowy <- function(.data, 
                             column,
                             cross_var = NULL, #TODO: wykorzystanie argumentu dla facet_wrap()

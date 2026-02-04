@@ -1,3 +1,29 @@
+#' Title
+#'
+#' @param .data 
+#' @param wzor_nazw_zmiennych 
+#' @param zmienne 
+#' @param ordered 
+#' @param rev_values 
+#' @param sort_value 
+#' @param last_value 
+#' @param items_labels 
+#' @param items_labels_width 
+#' @param values_text_cutoff 
+#' @param digits 
+#' @param fill_color_palette 
+#' @param fill_color_direction 
+#' @param fill_labels 
+#' @param legend_n_row 
+#' @param coord_flip 
+#' @param title 
+#' @param subtitle 
+#' @param caption 
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 wykres_bloku_pytan <- function(.data = data, 
                                wzor_nazw_zmiennych = '',
                                zmienne = NULL,
