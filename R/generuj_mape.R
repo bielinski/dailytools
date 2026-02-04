@@ -1,3 +1,52 @@
+#' Uniwersalne generowanie map wektorowych
+#'
+#' Funkcja pozwala na tworzenie estetycznych map Polski (na poziomach: kraj, województwa, powiaty, gminy),
+#' Europy oraz Świata. Obsługuje nakładanie danych zewnętrznych, automatyczny kontrast etykiet
+#' oraz personalizację wyglądu (kolory, grubość linii, proporcje).
+#'
+#' @param poziom Charakter; poziom szczegółowości mapy: "polska", "wojewodztwa", "powiaty", "gminy", "europa", "swiat".
+#' @param dane_zewnetrzne Data frame; ramka danych zawierająca wartości do naniesienia na mapę. Domyślnie NULL.
+#' @param kolumna_id Charakter; nazwa kolumny w `dane_zewnetrzne`, która zawiera kody identyfikacyjne (np. ISO3 lub PCODE).
+#' @param kolumna_wartosc Charakter; nazwa kolumny z wartościami numerycznymi do kolorowania i etykietowania.
+#' @param paleta Charakter; nazwa palety viridis ("magma", "inferno", "plasma", "viridis", "cividis") lub "custom".
+#' @param kolory_custom Wektor; dwa kolory (nazwy lub HEX) definiujące początek i koniec gradientu przy paleta = "custom".
+#' @param m_title Charakter; tytuł główny mapy.
+#' @param m_subtitle Charakter; podtytuł mapy.
+#' @param m_caption Charakter; podpis pod mapą (np. źródło danych).
+#' @param pokaz_etykiety Logiczne; czy wyświetlać wartości liczbowe bezpośrednio na mapie.
+#' @param proporcja Numeryczne; stosunek osi Y do X (aspect ratio). Mniejsze wartości rozciągają mapę horyzontalnie.
+#' @param linia_grubosc Numeryczne; grubość linii granic poligonów (standardowo 0.2).
+#'
+#' @details
+#' Funkcja automatycznie dobiera odwzorowanie kartograficzne:
+#' \itemize{
+#'   \item EPSG:2180 (PUWG 1992) dla map Polski.
+#'   \item EPSG:4326 (WGS84) dla map Europy i Świata.
+#' }
+#'
+#' Etykiety tekstowe używają mechanizmu autokontrastu (pakiet `farver`),
+#' zmieniając kolor na biały na ciemnych polach gradientu.
+#'
+#' @return Obiekt klasy ggplot.
+#'
+#' @import terra
+#' @import tidyterra
+#' @import ggplot2
+#' @import dplyr
+#' @import farver
+#'
+#' @export
+#'
+#' @examples
+#' # Mapa województw z domyślnymi ustawieniami
+#' generuj_mape(poziom = "wojewodztwa")
+#'
+#' # Mapa Europy z danymi i rozciągnięciem
+#' stats <- data.frame(iso = c("POL", "FRA"), val = c(10, 20))
+#' generuj_mape(poziom = "europa", dane_zewnetrzne = stats,
+#'              kolumna_id = "iso", kolumna_wartosc = "val",
+#'              proporcja = 0.7, linia_grubosc = 0.1)
+
 generuj_mape <- function(poziom = "wojewodztwa",
 						 dane_zewnetrzne = NULL,
 						 kolumna_id = NULL,
