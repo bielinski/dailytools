@@ -42,19 +42,56 @@ plot(powiaty)
 wojewodztwa_df <- as.data.frame(wojewodztwa)
 wojewodztwa_df
 
-
+library(terra)
 library(tidyterra)
-wojewodztwa %>% 
+wojewodztwa %>%
   autoplot(fill = 'blue') +
   theme_void()
 
 sample_data <- data.frame(
-  adm1_pcode = as_tibble(wojewodztwa)$adm1_pcode %>% unique(), 
+  adm1_pcode = as_tibble(wojewodztwa)$adm1_pcode %>% unique(),
   some_value = c(2,4,3,5,6,7,8,7,6,4,5,6,5,6,1,10)
 )
 
-wojewodztwa %>% 
-  left_join(sample_data, by = 'adm1_pcode') %>% 
+wojewodztwa %>%
+  left_join(sample_data, by = 'adm1_pcode') %>%
   autoplot(aes(fill = some_value)) +
-  theme_void() + 
+  theme_void() +
   theme(legend.position = 'bottom')
+
+generuj_mape(poziom = 'powiaty')
+generuj_mape(poziom = 'gminy')
+generuj_mape(poziom = 'swiat')
+generuj_mape(poziom = 'europa')
+
+mapa <- vect('maps/CNTR_RG_20M_2024_4326/CNTR_RG_20M_2024_4326.shp')
+mapa
+
+
+# 1. Przygotowanie danych testowych
+europa_stats <- data.frame(
+  kod_kraju = c(
+    "POL", "DEU", "FRA", "ITA", "ESP", "GBR", "UKR", "NOR", "SWE", "FIN",
+    "ISL", "IRL", "PRT", "AUT", "CHE", "BEL", "NLD", "CZE", "SVK", "HUN",
+    "ROU", "BGR", "GRC", "TUR", "EST", "LVA", "LTU", "DNK", "SRB", "HRV"
+  ),
+  wartosc = c(
+    95, 88, 82, 75, 70, 85, 90, 98, 92, 94,
+    99, 87, 65, 89, 91, 80, 86, 78, 74, 72,
+    68, 60, 62, 55, 93, 84, 85, 90, 58, 77
+  )
+)
+
+# 2. Wywołanie Twojej funkcji
+generuj_mape(
+  poziom = "europa",
+  dane_zewnetrzne = europa_stats,
+  kolumna_id = "kod_kraju",
+  kolumna_wartosc = "wartosc",
+  paleta = "viridis",
+  pokaz_etykiety = TRUE,
+  m_title = "Wskaźnik Innowacji w Europie",
+  m_subtitle = "Dane testowe na rok 2026",
+  m_caption = "Źródło: Symulacja programistyczna",
+  proporcja = 0.73
+)
