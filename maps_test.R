@@ -59,6 +59,30 @@ wojewodztwa %>%
   theme_void() +
   theme(legend.position = 'bottom')
 
+
+# 1. Tworzymy dane testowe dokładnie tak, jak w Twoim kodzie:
+sample_data <- data.frame(
+  adm1_pcode = as_tibble(vect('maps/humdata/pol_admin1.shp'))$adm1_pcode %>% unique(),
+  some_value = c(2,4,3,5,6,7,8,7,6,4,5,6,5,6,1,10)
+)
+
+generuj_mape(poziom = 'wojewodztwa')
+
+generuj_mape(
+  poziom = "wojewodztwa",
+  dane_zewnetrzne = sample_data,
+  kolumna_id = "adm1_pcode",
+  kolumna_wartosc = "some_value",
+  paleta = 'custom',
+  kolory_custom = c('white', 'navyblue'),
+  pokaz_etykiety = TRUE,
+  m_title = "Moja Mapa",        # Używamy m_title
+  m_subtitle = "Podtytuł",      # Używamy m_subtitle
+  m_caption = "Źródło: Dane",    # Używamy m_caption
+  linia_grubosc = 0.01
+)
+
+
 generuj_mape(poziom = 'powiaty')
 generuj_mape(poziom = 'gminy')
 generuj_mape(poziom = 'swiat')
