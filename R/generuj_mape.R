@@ -8,7 +8,7 @@
 #' @param dane_zewnetrzne Data frame; ramka danych zawierająca wartości do naniesienia na mapę. Domyślnie NULL.
 #' @param kolumna_id Charakter; nazwa kolumny w `dane_zewnetrzne`, która zawiera kody identyfikacyjne (np. ISO3 lub PCODE).
 #' @param kolumna_wartosc Charakter; nazwa kolumny z wartościami numerycznymi do kolorowania i etykietowania.
-#' @param paleta Charakter; nazwa palety viridis ("magma", "inferno", "plasma", "viridis", "cividis") lub "custom".
+#' @param paleta Charakter; nazwa palety viridis ("magma", "inferno", "plasma", "viridis", "cividis", "mako", "rocket", "turbo") lub "custom".
 #' @param kolory_custom Wektor; dwa kolory (nazwy lub HEX) definiujące początek i koniec gradientu przy paleta = "custom".
 #' @param m_title Charakter; tytuł główny mapy.
 #' @param m_subtitle Charakter; podtytuł mapy.
@@ -16,6 +16,9 @@
 #' @param pokaz_etykiety Logiczne; czy wyświetlać wartości liczbowe bezpośrednio na mapie.
 #' @param proporcja Numeryczne; stosunek osi Y do X (aspect ratio). Mniejsze wartości rozciągają mapę horyzontalnie.
 #' @param linia_grubosc Numeryczne; grubość linii granic poligonów (standardowo 0.2).
+#' @param na_kolor Charakter; kolor dla braków danych (wartości NA)
+#' @param legenda Logiczne; czy wyświetlać legendę
+#' @param legend.position Character; pozycja legendy ('bottom', 'top', 'left', 'right')
 #'
 #' @details
 #' Funkcja automatycznie dobiera odwzorowanie kartograficzne:
@@ -58,7 +61,10 @@ generuj_mape <- function(poziom = "wojewodztwa",
 						 m_caption = NULL,
 						 pokaz_etykiety = FALSE,
 						 proporcja = NULL,
-						 linia_grubosc = 0.2) { # NOWY ARGUMENT
+						 linia_grubosc = 0.2,
+						 na_kolor = 'gray85',
+						 legenda = NULL,
+						 legend.position = 'bottom') { # NOWY ARGUMENT
 
 	require(terra)
 	require(tidyterra)
@@ -89,7 +95,7 @@ generuj_mape <- function(poziom = "wojewodztwa",
 						 "HUN", "IRL", "ISL", "ITA", "KOS", "LIE", "LTU", "LUX", "LVA", "MCO",
 						 "MDA", "MKD", "MLT", "MNE", "NLD", "NOR", "POL", "PRT", "ROU", "RUS",
 						 "SMR", "SRB", "SVK", "SVN", "SWE", "TUR", "UKR", "VAT")
-		mapa <- mapa %>% filter(ISO3_CODE %in% kody_europy)
+		#mapa <- mapa %>% filter(ISO3_CODE %in% kody_europy)
 		mapa <- project(mapa, "EPSG:4326")
 	} else if (poziom == "swiat") {
 		mapa <- project(mapa, "EPSG:4326")
@@ -122,9 +128,9 @@ generuj_mape <- function(poziom = "wojewodztwa",
 		}
 
 		if (paleta == "custom") {
-			p <- p + scale_fill_gradient(low = kolory_custom[1], high = kolory_custom[2], na.value = "grey80", name = "Wartość")
+			p <- p + scale_fill_gradient(low = kolory_custom[1], high = kolory_custom[2], na.value = na_kolor, name = "Wartość")
 		} else {
-			p <- p + scale_fill_viridis_c(option = paleta, na.value = "grey80", name = "Wartość")
+			p <- p + scale_fill_viridis_c(option = paleta, na.value = na_kolor, name = "Wartość")
 		}
 	} else {
 		# Pusta mapa
@@ -134,12 +140,18 @@ generuj_mape <- function(poziom = "wojewodztwa",
 
 	# 5. Kadrowanie i proporcje
 	if (poziom == "europa") {
-		p <- p + coord_sf(xlim = c(-25, 43), ylim = c(34, 72), expand = FALSE)
+		p <- p + coord_sf(xlim = c(-25, 40), ylim = c(34, 69), expand = FALSE)
 	}
 
 	p <- p + theme_void() +
-		theme(legend.position = "bottom", aspect.ratio = proporcja) +
+		theme(aspect.ratio = proporcja) +
 		labs(title = tit, subtitle = sub, caption = cap)
+
+	if(legenda == TRUE) {
+		p <- p + theme(legend.position = legend.position)
+	} else {
+		p <- p + theme(legend.position = 'none')
+	}
 
 	return(p)
 }

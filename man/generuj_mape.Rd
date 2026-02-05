@@ -16,7 +16,10 @@ generuj_mape(
   m_caption = NULL,
   pokaz_etykiety = FALSE,
   proporcja = NULL,
-  linia_grubosc = 0.2
+  linia_grubosc = 0.2,
+  na_kolor = "gray85",
+  legenda = NULL,
+  legend.position = "bottom"
 )
 }
 \arguments{
@@ -28,7 +31,7 @@ generuj_mape(
 
 \item{kolumna_wartosc}{Charakter; nazwa kolumny z wartościami numerycznymi do kolorowania i etykietowania.}
 
-\item{paleta}{Charakter; nazwa palety viridis ("magma", "inferno", "plasma", "viridis", "cividis") lub "custom".}
+\item{paleta}{Charakter; nazwa palety viridis ("magma", "inferno", "plasma", "viridis", "cividis", "mako", "rocket", "turbo") lub "custom".}
 
 \item{kolory_custom}{Wektor; dwa kolory (nazwy lub HEX) definiujące początek i koniec gradientu przy paleta = "custom".}
 
@@ -43,6 +46,12 @@ generuj_mape(
 \item{proporcja}{Numeryczne; stosunek osi Y do X (aspect ratio). Mniejsze wartości rozciągają mapę horyzontalnie.}
 
 \item{linia_grubosc}{Numeryczne; grubość linii granic poligonów (standardowo 0.2).}
+
+\item{na_kolor}{Charakter; kolor dla braków danych (wartości NA)}
+
+\item{legenda}{Logiczne; czy wyświetlać legendę}
+
+\item{legend.position}{Character; pozycja legendy ('bottom', 'top', 'left', 'right')}
 }
 \value{
 Obiekt klasy ggplot.
