@@ -63,7 +63,7 @@ generuj_mape <- function(poziom = "wojewodztwa",
 						 proporcja = NULL,
 						 linia_grubosc = 0.2,
 						 na_kolor = 'gray85',
-						 legenda = NULL,
+						 legenda = TRUE,
 						 legend.position = 'bottom') { # NOWY ARGUMENT
 
 	require(terra)
