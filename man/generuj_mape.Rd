@@ -18,7 +18,7 @@ generuj_mape(
   proporcja = NULL,
   linia_grubosc = 0.2,
   na_kolor = "gray85",
-  legenda = NULL,
+  legenda = TRUE,
   legend.position = "bottom"
 )
 }
@@ -29,11 +29,11 @@ generuj_mape(
 
 \item{kolumna_id}{Charakter; nazwa kolumny w `dane_zewnetrzne`, która zawiera kody identyfikacyjne (np. ISO3 lub PCODE).}
 
-\item{kolumna_wartosc}{Charakter; nazwa kolumny z wartościami numerycznymi do kolorowania i etykietowania.}
+\item{kolumna_wartosc}{Charakter; nazwa kolumny z wartościami (numeryczne lub factor/character).}
 
 \item{paleta}{Charakter; nazwa palety viridis ("magma", "inferno", "plasma", "viridis", "cividis", "mako", "rocket", "turbo") lub "custom".}
 
-\item{kolory_custom}{Wektor; dwa kolory (nazwy lub HEX) definiujące początek i koniec gradientu przy paleta = "custom".}
+\item{kolory_custom}{Wektor; kolory dla gradientu (2 kolory) lub paleta dla kategorii (wiele kolorów).}
 
 \item{m_title}{Charakter; tytuł główny mapy.}
 
@@ -41,43 +41,20 @@ generuj_mape(
 
 \item{m_caption}{Charakter; podpis pod mapą (np. źródło danych).}
 
-\item{pokaz_etykiety}{Logiczne; czy wyświetlać wartości liczbowe bezpośrednio na mapie.}
+\item{pokaz_etykiety}{Logiczne; czy wyświetlać wartości/nazwy bezpośrednio na mapie.}
 
-\item{proporcja}{Numeryczne; stosunek osi Y do X (aspect ratio). Mniejsze wartości rozciągają mapę horyzontalnie.}
+\item{proporcja}{Numeryczne; stosunek osi Y do X (aspect ratio).}
 
 \item{linia_grubosc}{Numeryczne; grubość linii granic poligonów (standardowo 0.2).}
 
-\item{na_kolor}{Charakter; kolor dla braków danych (wartości NA)}
+\item{na_kolor}{Charakter; kolor dla braków danych (wartości NA).}
 
-\item{legenda}{Logiczne; czy wyświetlać legendę}
+\item{legenda}{Logiczne; czy wyświetlać legendę.}
 
-\item{legend.position}{Character; pozycja legendy ('bottom', 'top', 'left', 'right')}
-}
-\value{
-Obiekt klasy ggplot.
+\item{legend.position}{Character; pozycja legendy ('bottom', 'top', 'left', 'right').}
 }
 \description{
 Funkcja pozwala na tworzenie estetycznych map Polski (na poziomach: kraj, województwa, powiaty, gminy),
 Europy oraz Świata. Obsługuje nakładanie danych zewnętrznych, automatyczny kontrast etykiet
-oraz personalizację wyglądu (kolory, grubość linii, proporcje).
-}
-\details{
-Funkcja automatycznie dobiera odwzorowanie kartograficzne:
-\itemize{
-  \item EPSG:2180 (PUWG 1992) dla map Polski.
-  \item EPSG:4326 (WGS84) dla map Europy i Świata.
-}
-
-Etykiety tekstowe używają mechanizmu autokontrastu (pakiet `farver`),
-zmieniając kolor na biały na ciemnych polach gradientu.
-}
-\examples{
-# Mapa województw z domyślnymi ustawieniami
-generuj_mape(poziom = "wojewodztwa")
-
-# Mapa Europy z danymi i rozciągnięciem
-stats <- data.frame(iso = c("POL", "FRA"), val = c(10, 20))
-generuj_mape(poziom = "europa", dane_zewnetrzne = stats,
-             kolumna_id = "iso", kolumna_wartosc = "val",
-             proporcja = 0.7, linia_grubosc = 0.1)
+oraz personalizację wyglądu (kolory, grubość linii, proporcje). Obsługuje dane numeryczne i kategoryczne.
 }
