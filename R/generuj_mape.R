@@ -21,7 +21,7 @@
 #' @param legend.position Character; pozycja legendy ('bottom', 'top', 'left', 'right').
 #'
 #' @export
-generuj_mape <- function(poziom = "wojewodztwa",
+generuj_mape_old <- function(poziom = "wojewodztwa",
 						 dane_zewnetrzne = NULL,
 						 kolumna_id = NULL,
 						 kolumna_wartosc = NULL,
