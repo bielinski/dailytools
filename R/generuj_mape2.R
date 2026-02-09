@@ -189,9 +189,17 @@ generuj_mape <- function(data,
 			min.segment.length = if(segmenty) 0 else Inf,
 			max.overlaps = 100, inherit.aes = FALSE
 		) +
-		theme_void() +
+		theme_minimal() +
 		labs(title = tytul, subtitle = podtytul, caption = podpis, fill = tytul_legendy) +
-		theme(legend.position = ifelse(pokaz_legenda, pozycja_legendy, "none"))
+		theme(legend.position = ifelse(pokaz_legenda,
+									   pozycja_legendy, "none"),
+			  panel.grid.major = element_blank(),
+			  panel.grid.minor = element_blank(),
+			  axis.title.x = element_blank(),
+			  axis.title.y = element_blank(),
+			  axis.ticks = element_blank(),
+			  axis.text = element_blank()
+			  )
 
 	if (zasieg == "europa") p <- p + coord_sf(xlim = c(-15, 42), ylim = c(34, 71), expand = FALSE)
 
