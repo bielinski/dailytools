@@ -54,37 +54,37 @@ theme_nask <- function() {
   theme(
     # Text elements ==========================================================
     plot.title = element_text(
-      size = 16,
+      size = 18,
       face = "bold",
       color = "black",
       margin = margin(b = 10)
     ),
     plot.subtitle = element_text(
-      size = 14,
+      size = 16,
       face = "bold",
       color = "black",
       margin = margin(b = 10)
     ),
     plot.caption = element_text(
-      size = 9,
+      size = 11,
       face = 'plain',
       color = "#757576",
       margin = margin(t = 15),
       hjust = 0
     ),
     axis.text = element_text(
-      size = 10,
+      size = 12,
       face = 'plain',
       color = "#9D9D9D"
     ),
     axis.title = element_text(
-      size = 10,
+      size = 12,
       face = 'plain',
       color = '#757576'
     ),
     strip.text.x = element_markdown(hjust = 0.5,
                                     vjust = 1,
-                                    size = 12),
+                                    size = 14),
     # Text elements ----------------------------
     plot.title.position = "plot",,
     plot.caption.position = "plot",
