@@ -4,6 +4,35 @@
 # Wartości 11,5 Semibold / czarny
 # Stopka 9/12 Regular / ciemnoszary
 
+#' Motyw graficzny zgodny ze standardem NASK
+#'
+#' Funkcja definiuje spójny wygląd wykresów ggplot2, ustawiając odpowiednie 
+#' czcionki (Archivo), kolory oraz rozmiary elementów tekstowych.
+#' 
+#' @details 
+#' Motyw implementuje następujące wytyczne:
+#' \itemize{
+#'   \item \strong{Tytuł:} 16pt, Bold, czarny.
+#'   \item \strong{Podtytuł:} 14pt, Bold, czarny.
+#'   \item \strong{Osie/Etykiety:} 10pt, Regular, szary (#9D9D9D).
+#'   \item \strong{Stopka:} 9pt, Regular, ciemnoszary (#757576).
+#' }
+#' 
+#' @return Zwraca obiekt klasy \code{theme}, który można dodać do wykresu ggplot2.
+#' 
+#' @import ggplot2
+#' @import showtext
+#' @import ggtext
+#' 
+#' @examples
+#' \ village {
+#' library(ggplot2)
+#' ggplot(mtcars, aes(mpg, wt)) +
+#'   geom_point() +
+#'   labs(title = "Tytuł wykresu", subtitle = "Podtytuł", caption = "Źródło: NASK") +
+#'   theme_nask()
+#' }
+#' @export
 
 theme_nask <- function() {
   require(showtext)
