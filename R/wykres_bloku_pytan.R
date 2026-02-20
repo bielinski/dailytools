@@ -21,11 +21,13 @@
 #'@param values_text_cutoff wartość etykiet wartości poniżej której etykiety
 #'  wartości nie sa wyświetlane na wykresie (domyślnie 5)
 #'@param digits liczba miejsc po przecinku do zaokrąglenia etykiet wartości
+#'@param bars_width szerokość słupków na wykresie. Domyślnie 0.8, mniejsze wartości - węższe słupki
 #'@param fill_color_palette paleta dla wypełnień słupków
 #'@param fill_color_direction kierunek układu kolorów na wykresie (1 lub -1 dla
 #'  odróconej kolejności)
 #'@param fill_labels wektor etykiet dla poszczególnych kolorów wypełnienia
-#'@param legend_n_row liczba wierszy dla elementów legendy
+#'@param legend_n_row liczba wierszy dla elementów legendy "none", "left", "right", "bottom", "top", "inside". Wartość domyślna 'top'
+#'@param legend.position pozycja legendy względem wykresu
 #'@param coord_flip TRUE/FALSE czy odwrócić osie wykresu
 #'@param title tytuł na wykresie
 #'@param subtitle podtytuł na wykresie
@@ -62,28 +64,30 @@
 #'                   sort_value = 'Zaznaczono',
 #'                   last_value = 'p16_9_fct'
 #')
-#' 
+#'
 
-wykres_bloku_pytan <- function(.data = data, 
+wykres_bloku_pytan <- function(.data = data,
                                wzor_nazw_zmiennych = '',
                                zmienne = NULL,
                                ordered = FALSE,
                                rev_values = FALSE,
-                               sort_value = NULL, 
+                               sort_value = NULL,
                                last_value = NULL,
                                items_labels = NULL,
-                               items_labels_width = 60, 
+                               items_labels_width = 60,
                                values_text_cutoff = 5,
                                digits = 1,
+                               bars_width = 0.8,
                                fill_color_palette = 'Greys',
                                fill_color_direction = 1,
                                fill_labels = NULL,
                                legend_n_row = 2,
-                               coord_flip = TRUE, 
+                               legend.position = 'top',
+                               coord_flip = TRUE,
                                title = '',
                                subtitle = '',
                                caption = ''
-) { 
+) {
   require(dplyr)
   require(ggplot2)
   require(stringr)
@@ -91,7 +95,7 @@ wykres_bloku_pytan <- function(.data = data,
   require(paletteer)
   require(forcats)
   require(tidyr) # Dodane dla pivot_longer
-  
+
   # --- Funkcja kontrastu ---
   contrast <- function(colour) {
     out   <- rep("black", length(colour))
@@ -100,42 +104,42 @@ wykres_bloku_pytan <- function(.data = data,
     out
   }
   autocontrast <- aes(colour = after_scale(contrast(fill)))
-  
+
   # --- Subsetting ---
   if(wzor_nazw_zmiennych != '') {
     df_sub <- .data %>% select(starts_with(wzor_nazw_zmiennych))
-  } 
+  }
   if(!is.null(zmienne)){
     df_sub <- .data %>% select(all_of(zmienne))
   }
-  
+
   # --- Przygotowanie danych ---
-  df_sub <- df_sub %>% 
-    pivot_longer(cols = everything()) %>% 
-    filter(!is.na(value)) %>% 
-    group_by(name) %>% 
-    count(value, .drop = FALSE) %>% 
+  df_sub <- df_sub %>%
+    pivot_longer(cols = everything()) %>%
+    filter(!is.na(value)) %>%
+    group_by(name) %>%
+    count(value, .drop = FALSE) %>%
     mutate(proc = 100*(n/sum(n)),
-           proc_cleaned = if_else(proc < values_text_cutoff, 
-                                  true = '', 
+           proc_cleaned = if_else(proc < values_text_cutoff,
+                                  true = '',
                                   false = paste0(round(proc, digits = digits), '%')),
            totals = sum(n)) %>%
     # Obliczanie wartości do sortowania (dynamiczne)
     group_by(name) %>%
-    mutate(proc_sort_value = if(!is.null(sort_value) && sort_value %in% value) 
+    mutate(proc_sort_value = if(!is.null(sort_value) && sort_value %in% value)
       sum(proc[value == sort_value]) else 0) %>%
     ungroup()
-  
+
   # Zawijanie długich etykiet wartości (legendy)
   if(max(nchar(as.character(df_sub$value)), na.rm = TRUE) > 16){
     df_sub <- df_sub %>%
       mutate(value = factor(value, labels = str_wrap(unique(value), width = 17)))
   }
-  
-  # --- Logika Sortowania (Kluczowy fragment) ---
-  
+
+  # --- Logika Sortowania ---
+
   df_sub <- df_sub %>% ungroup()
-  
+
   # 1. Fizyczne sortowanie wg wartości
   if(!is.null(sort_value)) {
     df_sub <- df_sub %>% arrange(
@@ -143,63 +147,64 @@ wykres_bloku_pytan <- function(.data = data,
       proc_sort_value)
     #)
   }
-  
+
   # 2. Ustalenie kolejności poziomów (faktoryzacja)
-  df_sub <- df_sub %>% 
+  df_sub <- df_sub %>%
     mutate(name = factor(name, levels = unique(name)))
-  
+
   # 3. Wyjątek: przesuwanie konkretnej zmiennej na koniec
   if(!is.null(last_value) && last_value %in% df_sub$name) {
-    df_sub <- df_sub %>% 
+    df_sub <- df_sub %>%
       mutate(name = fct_relevel(name, last_value, after = 0))
   }
-  
+
   # --- Wykres ---
-  the_plot <- df_sub %>% 
+  the_plot <- df_sub %>%
     ggplot(aes(x = name, y = proc, fill = value)) +
-    geom_col(color = 'gray90')
-  
+    geom_col(color = 'gray90', width = bars_width)
+
   # Etykiety osi X (pytania)
   if(!is.null(items_labels)) {
-    the_plot <- the_plot + 
+    the_plot <- the_plot +
       scale_x_discrete(
         breaks = names(items_labels),
         labels = str_wrap(items_labels, width = items_labels_width)
       )
   }
-  
+
   # Warstwy tekstowe
   the_plot <- the_plot +
     geom_text(aes(label = proc_cleaned, !!!autocontrast, group = value),
               position = position_stack(vjust = 0.5),
               size = 3, na.rm = TRUE, show.legend = FALSE) +
-    geom_text(aes(y = 102, label = paste0('N=', round(totals, 0))), 
+    geom_text(aes(y = 102, label = paste0('N=', round(totals, 0))),
               size = 3, color = 'gray60', check_overlap = TRUE,
               hjust = 0) # Wyrównanie do lewej od punktu 105
-  
+
   if(coord_flip) { the_plot <- the_plot + coord_flip() }
-  
-  
+
+
   if (length(fill_color_palette) > 1) {
     the_plot <- the_plot + scale_fill_manual(values = fill_color_palette, labels = fill_labels)
   } else {
-    the_plot <- the_plot + scale_fill_brewer(type = 'seq', 
-                                             palette = fill_color_palette, 
+    the_plot <- the_plot + scale_fill_brewer(type = 'seq',
+                                             palette = fill_color_palette,
                                              direction = fill_color_direction,
                                              labels = fill_labels)
   }
-  
-  
+
+
   the_plot <- the_plot +
     #scale_fill_brewer(type = 'seq', palette = fill_color_palette, direction = fill_color_direction) +
     scale_colour_manual(values=c("#000000", "#ffffff"), guide = 'none') +
     labs(x = '', y = '%', title = title, subtitle = subtitle, caption = caption) +
     ylim(0, 110) +
-    theme_minimal() +
-    theme(legend.position = 'bottom',
-          legend.title = element_blank(),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank())
-  
+    theme_nask() +
+    theme(
+      legend.position = legend.position,
+      legend.title = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank())
+
   return(the_plot + guides(fill = guide_legend(nrow = legend_n_row)))
 }
