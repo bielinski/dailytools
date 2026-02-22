@@ -45,9 +45,9 @@ show_nask_palettes <- function() {
     )
   })
 
-  print(df)
-
   df <- do.call(rbind, df)
+
+  print(df)
 
   # Generowanie wykresu
   ggplot(df, aes(x = id, y = paleta, fill = kolor)) +
