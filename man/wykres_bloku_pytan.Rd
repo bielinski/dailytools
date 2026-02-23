@@ -8,6 +8,7 @@ wykres_bloku_pytan(
   .data = data,
   wzor_nazw_zmiennych = "",
   zmienne = NULL,
+  weight = NULL,
   ordered = FALSE,
   rev_values = FALSE,
   sort_value = NULL,
@@ -16,10 +17,12 @@ wykres_bloku_pytan(
   items_labels_width = 60,
   values_text_cutoff = 5,
   digits = 1,
+  bars_width = 0.8,
   fill_color_palette = "Greys",
   fill_color_direction = 1,
   fill_labels = NULL,
   legend_n_row = 2,
+  legend.position = "top",
   coord_flip = TRUE,
   title = "",
   subtitle = "",
@@ -55,6 +58,8 @@ wartości nie sa wyświetlane na wykresie (domyślnie 5)}
 
 \item{digits}{liczba miejsc po przecinku do zaokrąglenia etykiet wartości}
 
+\item{bars_width}{szerokość słupków na wykresie. Domyślnie 0.8, mniejsze wartości - węższe słupki}
+
 \item{fill_color_palette}{paleta dla wypełnień słupków}
 
 \item{fill_color_direction}{kierunek układu kolorów na wykresie (1 lub -1 dla
@@ -62,7 +67,9 @@ odróconej kolejności)}
 
 \item{fill_labels}{wektor etykiet dla poszczególnych kolorów wypełnienia}
 
-\item{legend_n_row}{liczba wierszy dla elementów legendy}
+\item{legend_n_row}{liczba wierszy dla elementów legendy "none", "left", "right", "bottom", "top", "inside". Wartość domyślna 'top'}
+
+\item{legend.position}{pozycja legendy względem wykresu}
 
 \item{coord_flip}{TRUE/FALSE czy odwrócić osie wykresu}
 

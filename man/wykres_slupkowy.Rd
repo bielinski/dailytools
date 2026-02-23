@@ -9,7 +9,7 @@ wykres_slupkowy(
   column,
   cross_var = NULL,
   weight = NULL,
-  fill_color = "steelblue",
+  fill_color = kolory_unipolar_5[5],
   title = NULL,
   subtitle = NULL,
   caption = NULL,
@@ -18,7 +18,8 @@ wykres_slupkowy(
   co_flip = FALSE,
   rev_values = FALSE,
   highlighted_cat = NULL,
-  highlight_fill = NULL,
+  highlight_fill = kolory_highlight$pomarancz,
+  bars_width = 0.8,
   ...
 )
 }

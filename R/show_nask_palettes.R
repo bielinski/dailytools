@@ -12,6 +12,8 @@
 #'
 #' @examples
 #' show_nask_palettes()
+
+
 show_nask_palettes <- function() {
   require(ggplot2)
   # Lista palet do pokazania

@@ -6,10 +6,10 @@
 
 #' Motyw graficzny zgodny ze standardem NASK
 #'
-#' Funkcja definiuje spójny wygląd wykresów ggplot2, ustawiając odpowiednie 
+#' Funkcja definiuje spójny wygląd wykresów ggplot2, ustawiając odpowiednie
 #' czcionki (Archivo), kolory oraz rozmiary elementów tekstowych.
-#' 
-#' @details 
+#'
+#' @details
 #' Motyw implementuje następujące wytyczne:
 #' \itemize{
 #'   \item \strong{Tytuł:} 16pt, Bold, czarny.
@@ -17,13 +17,13 @@
 #'   \item \strong{Osie/Etykiety:} 10pt, Regular, szary (#9D9D9D).
 #'   \item \strong{Stopka:} 9pt, Regular, ciemnoszary (#757576).
 #' }
-#' 
+#'
 #' @return Zwraca obiekt klasy \code{theme}, który można dodać do wykresu ggplot2.
-#' 
+#'
 #' @import ggplot2
 #' @import showtext
 #' @import ggtext
-#' 
+#'
 #' @examples
 #' \ village {
 #' library(ggplot2)
@@ -37,13 +37,13 @@
 theme_nask <- function() {
   require(showtext)
   require(ggtext)
-  
-  font_add_google(name = 'Archivo',
-                  family = "archivo",
-                  bold.wt = 600,
-                  db_cache = TRUE)
+
+  # font_add_google(name = 'Archivo',
+  #                 family = "archivo",
+  #                 bold.wt = 600,
+  #                 db_cache = TRUE)
   showtext_auto()
-  
+
   # Set base theme and font family =============================================
   theme_minimal(
     base_family = 'archivo', #"Arial",
@@ -88,11 +88,11 @@ theme_nask <- function() {
     # Text elements ----------------------------
     plot.title.position = "plot",,
     plot.caption.position = "plot",
-    
+
     # facets --------
-    
+
     panel.grid = element_blank(),
-    
+
     # Line elements ==========================================================
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(

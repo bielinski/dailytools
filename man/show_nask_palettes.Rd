@@ -10,9 +10,6 @@ show_nask_palettes()
 Obiekt ggplot2 prezentujący podgląd palet.
 }
 \description{
-Funkcja generuje wykres (swatch plot) prezentujący wszystkie dostępne 
+Funkcja generuje wykres (swatch plot) prezentujący wszystkie dostępne
 w pakiecie palety kolorów, co ułatwia ich wybór do wizualizacji.
-}
-\examples{
-show_nask_palettes()
 }

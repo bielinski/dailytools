@@ -10,7 +10,7 @@ theme_nask()
 Zwraca obiekt klasy \code{theme}, który można dodać do wykresu ggplot2.
 }
 \description{
-Funkcja definiuje spójny wygląd wykresów ggplot2, ustawiając odpowiednie 
+Funkcja definiuje spójny wygląd wykresów ggplot2, ustawiając odpowiednie
 czcionki (Archivo), kolory oraz rozmiary elementów tekstowych.
 }
 \details{
