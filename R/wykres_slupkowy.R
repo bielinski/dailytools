@@ -91,11 +91,13 @@ wykres_slupkowy <- function(.data,
                            highlight_fill,
                            fill_color))
       ),
-      show.legend = FALSE) +
+      show.legend = FALSE,
+      width = bars_width) + #szerokość słupków
       scale_fill_manual(name = vars(value), values=c(fill_color, highlight_fill))
   } else {
     the_plot <- the_plot +
-      geom_col(fill = fill_color)
+      geom_col(fill = fill_color,
+               width = bars_width) #szerokość słupków
   }
 
 
@@ -135,7 +137,10 @@ wykres_slupkowy <- function(.data,
                                        digits = 1)),
                          '%')
         ),
-        hjust=-0.2, size=3.5) #TODO obsłużyć zmianę tych parametrów dla coord_flip
+        hjust=-0.2,
+        size = 10/.pt #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
+        #size=3.5
+        )
   } else {
     the_plot <- the_plot +
       geom_text(
@@ -145,7 +150,10 @@ wykres_slupkowy <- function(.data,
                                        digits = 1)),
                          '%')
         ),
-        vjust=-0.3, size=3.5) #TODO obsłużyć zmianę tych parametrów dla coord_flip
+        vjust=-0.3,
+        size = 10/.pt,
+        #size = 3.5
+        )
   }
 
   if(!is.null(cross_var)){ #TODO: do poprawy ten kod
