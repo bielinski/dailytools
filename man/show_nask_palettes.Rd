@@ -13,3 +13,6 @@ Obiekt ggplot2 prezentujący podgląd palet.
 Funkcja generuje wykres (swatch plot) prezentujący wszystkie dostępne
 w pakiecie palety kolorów, co ułatwia ich wybór do wizualizacji.
 }
+\examples{
+show_nask_palettes()
+}

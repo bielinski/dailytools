@@ -4,7 +4,7 @@
 \alias{theme_nask}
 \title{Motyw graficzny zgodny ze standardem NASK}
 \usage{
-theme_nask()
+theme_nask(font_style = "thin")
 }
 \value{
 Zwraca obiekt klasy \code{theme}, który można dodać do wykresu ggplot2.

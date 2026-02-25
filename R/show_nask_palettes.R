@@ -32,9 +32,9 @@ show_nask_palettes <- function() {
     diverging_5  = kolory_diverging_5,
     diverging_7  = kolory_diverging_7,
     diverging_11 = kolory_diverging_11,
-    #highlight = kolory_highlight,
-    techniczne   = kolory_techniczne#,
-    #'kolor NA' = kolor_NA
+    highlight = unlist(kolory_highlight),
+    techniczne   = kolory_techniczne,
+    'kolor NA' = kolor_NA
   )
 
   # Przygotowanie danych do wykresu

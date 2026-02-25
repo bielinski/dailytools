@@ -34,19 +34,49 @@
 #' }
 #' @export
 
-theme_nask <- function() {
+theme_nask <- function(font_style = 'thin') {
   require(showtext)
   require(ggtext)
+  # require(systemfonts)
+  #
+  # sys_fonts <- systemfonts::system_fonts()[, c("path", "index", "family", "style", 'weight')]
+  #
+  # if(nrow(
+  #   sys_fonts %>%
+  #   filter(family == 'Archivo')
+  # ) != 0) {
+  #
+  #   archivo_path <- sys_fonts %>%
+  #     filter(family == 'Archivo' & weight == font_style) %>%
+  #     pull(path)
+  #
+  #   font_add("Archivo",
+  #            archivo_path)
+  #
+  #   showtext_auto()
+  #
+  #   font_family = 'Archivo'
+  # }
+  #
+  # if(nrow(
+  #   sys_fonts %>%
+  #   filter(family == 'Archivo')
+  # ) == 0) {
+  #
+  #   font_family = 'Arial'
+  # }
+
+  font_family = 'Arial'
 
   # font_add_google(name = 'Archivo',
   #                 family = "archivo",
   #                 bold.wt = 600,
   #                 db_cache = TRUE)
-  showtext_auto()
+
 
   # Set base theme and font family =============================================
   theme_minimal(
-    base_family = 'archivo', #"Arial",
+    base_family = font_family,
     base_size = 12,
     ink = kolory_techniczne['czarny']
   ) +
