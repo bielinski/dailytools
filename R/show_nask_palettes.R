@@ -65,5 +65,8 @@ show_nask_palettes <- function() {
       x = "Indeks koloru w wektorze",
       y = "Nazwa palety"
     ) +
-    theme_nask()
+    theme_nask() +
+    theme(
+      panel.grid.major = element_blank()
+    )
 }
