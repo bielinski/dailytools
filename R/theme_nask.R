@@ -35,6 +35,7 @@
 #' @export
 
 theme_nask <- function(font_style = 'thin') {
+  require(extrafont)
   require(showtext)
   require(ggtext)
   # require(systemfonts)
@@ -114,7 +115,7 @@ theme_nask <- function(font_style = 'thin') {
     ),
     strip.text.x = element_markdown(hjust = 0.5,
                                     vjust = 1,
-                                    size = 14),
+                                    size = 12),
     # Text elements ----------------------------
     plot.title.position = "plot",,
     plot.caption.position = "plot",

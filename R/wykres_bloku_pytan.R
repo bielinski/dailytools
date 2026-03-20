@@ -97,7 +97,7 @@ wykres_bloku_pytan <- function(.data = data,
   require(forcats)
   require(tidyr) # Dodane dla pivot_longer
 
-  # --- Funkcja kontrastu ---
+  # --- Funkcja kontrastu ----
   contrast <- function(colour) {
     out   <- rep("black", length(colour))
     light <- farver::get_channel(colour, "l", space = "hcl")
@@ -106,7 +106,7 @@ wykres_bloku_pytan <- function(.data = data,
   }
   autocontrast <- aes(colour = after_scale(contrast(fill)))
 
-  # --- Subsetting ---
+  # --- Subsetting ----
   if(wzor_nazw_zmiennych != '') {
     df_sub <- .data %>% select(starts_with(wzor_nazw_zmiennych))
   }
@@ -114,7 +114,7 @@ wykres_bloku_pytan <- function(.data = data,
     df_sub <- .data %>% select(all_of(zmienne))
   }
 
-  # --- Przygotowanie danych ---
+  # --- Przygotowanie danych ----
   df_sub <- df_sub %>%
     pivot_longer(cols = everything()) %>%
     filter(!is.na(value)) %>%
@@ -137,7 +137,7 @@ wykres_bloku_pytan <- function(.data = data,
       mutate(value = factor(value, labels = str_wrap(unique(value), width = 17)))
   }
 
-  # --- Logika Sortowania ---
+  # --- Logika Sortowania ----
 
   df_sub <- df_sub %>% ungroup()
 
@@ -159,12 +159,12 @@ wykres_bloku_pytan <- function(.data = data,
       mutate(name = fct_relevel(name, last_value, after = 0))
   }
 
-  # --- Wykres ---
+  # --- Wykres ----
   the_plot <- df_sub %>%
     ggplot(aes(x = name, y = proc, fill = value)) +
     geom_col(color = 'gray90', width = bars_width)
 
-  # Etykiety osi X (pytania)
+  ## Etykiety osi X (pytania) ----
   if(!is.null(items_labels)) {
     the_plot <- the_plot +
       scale_x_discrete(
@@ -173,7 +173,7 @@ wykres_bloku_pytan <- function(.data = data,
       )
   }
 
-  # Warstwy tekstowe
+  ## Warstwy tekstowe ----
   the_plot <- the_plot +
     geom_text(aes(label = proc_cleaned, !!!autocontrast, group = value),
               position = position_stack(vjust = 0.5),
