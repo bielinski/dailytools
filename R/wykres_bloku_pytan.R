@@ -177,9 +177,13 @@ wykres_bloku_pytan <- function(.data = data,
   the_plot <- the_plot +
     geom_text(aes(label = proc_cleaned, !!!autocontrast, group = value),
               position = position_stack(vjust = 0.5),
-              size = 3.5, na.rm = TRUE, show.legend = FALSE) +
+              #size = 3.5,
+              size = 10/.pt, #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
+              na.rm = TRUE, show.legend = FALSE) +
     geom_text(aes(y = 102, label = paste0('N=', round(totals, 0))),
-              size = 3.5, color = 'gray60', check_overlap = TRUE,
+              #size = 3.5,
+              size = 10/.pt, #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
+              color = 'gray60', check_overlap = TRUE,
               hjust = 0) # Wyrównanie do lewej od punktu 105
 
   if(coord_flip) { the_plot <- the_plot + coord_flip() }
