@@ -28,6 +28,7 @@
 #'@param fill_labels wektor etykiet dla poszczególnych kolorów wypełnienia
 #'@param legend_n_row liczba wierszy dla elementów legendy "none", "left", "right", "bottom", "top", "inside". Wartość domyślna 'top'
 #'@param legend.position pozycja legendy względem wykresu
+#'#'@param legend_rev TRUE/FALSE czy odwrócić kolejność elementów w legendzie
 #'@param coord_flip TRUE/FALSE czy odwrócić osie wykresu
 #'@param title tytuł na wykresie
 #'@param subtitle podtytuł na wykresie
@@ -84,6 +85,7 @@ wykres_bloku_pytan <- function(.data = data,
                                fill_labels = NULL,
                                legend_n_row = 2,
                                legend.position = 'top',
+                               legend_rev = FALSE,
                                coord_flip = TRUE,
                                title = '',
                                subtitle = '',
@@ -211,5 +213,5 @@ wykres_bloku_pytan <- function(.data = data,
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank())
 
-  return(the_plot + guides(fill = guide_legend(nrow = legend_n_row)))
+  return(the_plot + guides(fill = guide_legend(nrow = legend_n_row, reverse = legend_rev)))
 }
