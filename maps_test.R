@@ -106,10 +106,10 @@ europa_stats <- data.frame(
   )
 )
 
-# 2. Wywołanie Twojej funkcji
+# 2. Wywołanie  funkcji
 generuj_mape(
-  poziom = "europa",
-  dane_zewnetrzne = europa_stats,
+  zasieg = "europa",
+  data =  europa_stats,
   kolumna_id = "kod_kraju",
   kolumna_wartosc = "wartosc",
   paleta = "viridis",
