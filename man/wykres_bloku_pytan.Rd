@@ -23,6 +23,7 @@ wykres_bloku_pytan(
   fill_labels = NULL,
   legend_n_row = 2,
   legend.position = "top",
+  legend_rev = FALSE,
   coord_flip = TRUE,
   title = "",
   subtitle = "",
@@ -69,7 +70,8 @@ odróconej kolejności)}
 
 \item{legend_n_row}{liczba wierszy dla elementów legendy "none", "left", "right", "bottom", "top", "inside". Wartość domyślna 'top'}
 
-\item{legend.position}{pozycja legendy względem wykresu}
+\item{legend.position}{pozycja legendy względem wykresu
+#'@param legend_rev TRUE/FALSE czy odwrócić kolejność elementów w legendzie}
 
 \item{coord_flip}{TRUE/FALSE czy odwrócić osie wykresu}
 
