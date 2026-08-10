@@ -79,6 +79,7 @@ wykres_bloku_pytan <- function(.data = data,
                                items_labels_width = 60,
                                values_text_cutoff = 5,
                                digits = 1,
+                               font_size = 14,
                                bars_width = 0.8,
                                fill_color_palette = 'Greys',
                                fill_color_direction = 1,
@@ -125,7 +126,18 @@ wykres_bloku_pytan <- function(.data = data,
     mutate(proc = 100*(n/sum(n)),
            proc_cleaned = if_else(proc < values_text_cutoff,
                                   true = '',
-                                  false = paste0(round(proc, digits = digits), '%')),
+                                  false = paste0(
+                                    format(round(proc, digits = digits),  
+                                           #digits = digits,
+                                           decimal.mark = ',', 
+                                           drop0trailing = TRUE),
+                                    '%')
+                                  )#,
+           # proc_cleaned_comma = str_replace(as.character(proc_cleaned),
+           #                                  pattern = '.',
+           #                                  replacement = ','
+           #)
+           ,
            totals = sum(n)) %>%
     # Obliczanie wartości do sortowania (dynamiczne)
     group_by(name) %>%
@@ -171,7 +183,8 @@ wykres_bloku_pytan <- function(.data = data,
     the_plot <- the_plot +
       scale_x_discrete(
         breaks = names(items_labels),
-        labels = str_wrap(items_labels, width = items_labels_width)
+        labels = str_wrap(items_labels,
+                          width = items_labels_width)
       )
   }
 
@@ -180,11 +193,11 @@ wykres_bloku_pytan <- function(.data = data,
     geom_text(aes(label = proc_cleaned, !!!autocontrast, group = value),
               position = position_stack(vjust = 0.5),
               #size = 3.5,
-              size = 10/.pt, #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
+              size = font_size/.pt, #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
               na.rm = TRUE, show.legend = FALSE) +
     geom_text(aes(y = 102, label = paste0('N=', round(totals, 0))),
               #size = 3.5,
-              size = 10/.pt, #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
+              size = font_size/.pt, #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
               color = 'gray60', check_overlap = TRUE,
               hjust = 0) # Wyrównanie do lewej od punktu 105
 
@@ -208,6 +221,14 @@ wykres_bloku_pytan <- function(.data = data,
     ylim(0, 110) +
     theme_nask() +
     theme(
+      axis.text.y = element_text(size = font_size),
+      legend.location = 'plot',
+      axis.line=element_blank(),
+      axis.text.x=element_blank(),
+      #axis.text.y=element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title.x=element_blank(),
+      axis.title.y=element_blank(),
       legend.position = legend.position,
       legend.title = element_blank(),
       panel.grid.major = element_blank(),

@@ -34,7 +34,7 @@
 #' }
 #' @export
 
-theme_nask <- function(font_style = 'thin') {
+theme_nask <- function(font_style = 'thin', base_font = 16) {
   require(extrafont)
   require(showtext)
   require(ggtext)
@@ -78,7 +78,7 @@ theme_nask <- function(font_style = 'thin') {
   # Set base theme and font family =============================================
   theme_minimal(
     base_family = font_family,
-    base_size = 12,
+    base_size = base_font,
     ink = kolory_techniczne['czarny']
   ) +
     # Overwrite base theme defaults ============================================
@@ -97,7 +97,7 @@ theme_nask <- function(font_style = 'thin') {
       margin = margin(b = 10)
     ),
     plot.caption = element_text(
-      size = 11,
+      #size = 11,
       face = 'plain',
       color = "#757576",
       margin = margin(t = 15),
