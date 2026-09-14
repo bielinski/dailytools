@@ -17,6 +17,7 @@ wykres_bloku_pytan(
   items_labels_width = 60,
   values_text_cutoff = 5,
   digits = 1,
+  font_size = 14,
   bars_width = 0.8,
   fill_color_palette = "Greys",
   fill_color_direction = 1,

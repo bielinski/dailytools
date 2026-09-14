@@ -34,11 +34,13 @@ wykres_slupkowy <- function(.data,
                             caption = NULL,
                             expand_top = 0.15,
                             axix_x_labs_wrap = 20,
+                            digits = 1,
+                            font_size = 14,
                             co_flip = FALSE, # czy odwrócić wykres
                             rev_values = FALSE,
                             highlighted_cat = NULL,
                             highlight_fill = kolory_highlight$pomarancz,
-                            bars_width = 0.8, #TODO: implementacja argumentu określającego szerokośc słupków
+                            bars_width = 0.8,
                             ...) {
   require(dplyr)
   require(tidyr)
@@ -132,26 +134,33 @@ wykres_slupkowy <- function(.data,
       coord_flip() +
       geom_text(
         aes(
-          label = paste0(sprintf("%0.1f",
-                                 round(prop,
-                                       digits = 1)),
-                         '%')
+          label = paste0(
+            format(
+              round(prop,
+                    digits = digits),
+              #digits = digits,
+              decimal.mark = ',', 
+              drop0trailing = TRUE),
+            '%')
         ),
         hjust=-0.2,
-        size = 10/.pt #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
-        #size=3.5
+        size = font_size/.pt #konwersja z pkt (jak w theme()) na mm (skala rozmiaru fontów w geom_text())
         )
   } else {
     the_plot <- the_plot +
       geom_text(
         aes(
-          label = paste0(sprintf("%0.1f",
-                                 round(prop,
-                                       digits = 1)),
+          label = paste0(
+            format(
+              round(prop,
+                    digits = digits),
+              #digits = digits,
+              decimal.mark = ',', 
+              drop0trailing = TRUE),
                          '%')
         ),
         vjust=-0.3,
-        size = 10/.pt,
+        size = font_size/.pt,
         #size = 3.5
         )
   }
@@ -174,6 +183,7 @@ wykres_slupkowy <- function(.data,
 
   the_plot +
     theme(
+      axis.text.y = element_text(size = font_size),
       #legend.position = legend.position,
       legend.title = element_blank(),
       panel.grid.major = element_blank(),

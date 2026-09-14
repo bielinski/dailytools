@@ -145,12 +145,29 @@ wykres_bloku_pytan <- function(.data = data,
       sum(proc[value == sort_value]) else 0) %>%
     ungroup()
 
+  # # Zawijanie długich etykiet wartości (legendy)
+  # if(max(nchar(as.character(df_sub$value)), na.rm = TRUE) > 16){
+  #   df_sub <- df_sub %>%
+  #     mutate(value = factor(value, labels = str_wrap(unique(value), width = 17)))
+  # }
+
+  
   # Zawijanie długich etykiet wartości (legendy)
   if(max(nchar(as.character(df_sub$value)), na.rm = TRUE) > 16){
     df_sub <- df_sub %>%
       mutate(value = factor(value, labels = str_wrap(unique(value), width = 17)))
+  } else {
+    # Upewniamy się, że value jest faktorem, nawet jeśli etykiety były krótkie
+    df_sub <- df_sub %>%
+      mutate(value = factor(value, levels = unique(value)))
   }
-
+  
+  # --- Implementacja rev_values ----
+  if (rev_values == TRUE) {
+    df_sub <- df_sub %>%
+      mutate(value = fct_rev(value))
+  }
+  
   # --- Logika Sortowania ----
 
   df_sub <- df_sub %>% ungroup()

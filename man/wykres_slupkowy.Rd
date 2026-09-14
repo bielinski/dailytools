@@ -15,6 +15,8 @@ wykres_slupkowy(
   caption = NULL,
   expand_top = 0.15,
   axix_x_labs_wrap = 20,
+  digits = 1,
+  font_size = 14,
   co_flip = FALSE,
   rev_values = FALSE,
   highlighted_cat = NULL,
